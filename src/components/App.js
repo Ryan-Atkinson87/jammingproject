@@ -1,13 +1,20 @@
-import '../styles/App.css';
+import React from "react";
+//import '../styles/App.module.css';
+import Header from "./Header";
+import SearchBar from "./SearchBar";
+import SearchResults from "./SearchResults";
+import PlayList from "./Playlist";
+import styles from "../styles/App.module.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Start of my spotify project on codecademy!
-        </p>
-      </header>
+    <div className={styles.App}>
+      <Header />
+      <SearchBar />
+      <div className={styles.ResultsPlaylist}>
+        <SearchResults />
+        <PlayList />
+      </div>
     </div>
   );
 }

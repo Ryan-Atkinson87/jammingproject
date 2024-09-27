@@ -1,0 +1,9 @@
+.container {
+  border: solid 1px red;
+  color: blueviolet;
+}
+
+.container ul li {
+  list-style-type: none;
+  color: white;
+}

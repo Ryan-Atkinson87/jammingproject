@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
+  min-width: 100vw;
+  position: fixed;
+}
+
+.ResultsPlaylist {
+  display: flex;
+  justify-content: space-around;
+  border: solid 1px blue;
+  margin: 3rem;
+}

@@ -1,5 +1,27 @@
-.container {
-  border: solid 1px red;
-  color: blueviolet;
+.Container {
+  display: flex;
+  justify-content: center;
   margin: 3rem;
+  align-items: center;
+}
+
+
+.Search {
+  font-size: 2rem;
+  height: 3rem;
+  width: 30rem;
+  border-radius: 0.5rem;
+  background-color: #F0E8E6;
+  color: #87A330;
+}
+
+.Button {
+  font-size: 1.5rem;
+  height: 2.5rem;
+  appearance: none;
+  margin-left: 1rem;
+  border-radius: 0.5rem;
+  background-color: #87A330;
+  border: none;
+  padding: 0.5rem;
 }

@@ -9,11 +9,13 @@ import styles from "../styles/App.module.css";
 function App() {
   return (
     <div className={styles.App}>
-      <Header />
-      <SearchBar />
-      <div className={styles.ResultsPlaylist}>
-        <SearchResults />
-        <PlayList />
+      <div className={styles.Container}>
+        <Header />
+        <SearchBar />
+        <div className={styles.ResultsPlaylist}>
+          <SearchResults />
+          <PlayList />
+        </div>
       </div>
     </div>
   );

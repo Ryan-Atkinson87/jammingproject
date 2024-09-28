@@ -1,14 +1,25 @@
 .App {
+  display: flex;
   text-align: center;
-  background-color: #282c34;
+  background-color: #2B112C;
   min-height: 100vh;
   min-width: 100vw;
   position: fixed;
+  max-width: 800px;
+  align-content: center;
+  justify-content: center;
+}
+
+.Container {
+  max-width: 1200px;
 }
 
 .ResultsPlaylist {
   display: flex;
+  gap: 3rem;
   justify-content: space-around;
-  border: solid 1px blue;
   margin: 3rem;
+  min-height: 65vh;
+  min-width: 900px;
 }
+

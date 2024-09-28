@@ -3,9 +3,9 @@ import styles from '../styles/SearchBar.module.css'
 
 function SearchBar() {
   return (
-    <div className={styles.container}>
-      <input type="text" placeholder="Search for songs or artists" />
-      <button>Add to playlist</button>
+    <div className={styles.Container}>
+      <input type="text" placeholder="Search for songs or artists..." className={styles.Search} />
+      <button className={styles.Button}>Add to playlist</button>
     </div>
   );
 };

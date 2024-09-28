@@ -1,9 +1,60 @@
-.container {
-  border: solid 1px red;
-  color: blueviolet;
+.Container {
+  flex: 5;
+  border-radius: 0.5rem;
+  color: #F0E8E6;
+  background-color: #8693AB;
 }
 
-.container ul li {
-  list-style-type: none;
-  color: white;
+.Name{
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  left: 0;
+  text-align: left;
+  margin: 0.5rem auto 0.5rem 1rem;
+  font-size: 2rem;
+  color: #F0E8E6;
+}
+
+.Entry {
+  display: grid;
+  grid-template-columns: 4fr 4fr 1fr;
+  grid-template-rows: auto;
+  justify-content: space-between;
+  align-items: center;
+  color: #1C5253;
+  font-size: 1.5rem;
+  border-bottom: solid 1px #D9C5BF;
+  padding-bottom: 0.5rem;
+}
+
+.Entry p {
+  margin: 0;
+  text-align: left;
+  margin-left: 1rem;
+}
+
+.Title {
+  grid-area: 1 / 1 / span 1 / span 2;
+  text-align: left;
+  margin-left: 1rem;
+}
+
+.Artist {
+  grid-area: 2 / 1 / span 1 / span 1;
+  font-size: 1rem;
+}
+
+.Albumn {
+  grid-area: 2 / 2 / span 1 / span 1;
+  font-size: 1rem;
+}
+
+.Button {
+  font-size: 1.25rem;
+  border-radius: 0.5rem;
+  background-color: #87A330;
+  border: none;
+  margin: 1rem;
+  padding: 0.5rem;
 }

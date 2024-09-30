@@ -1,28 +1,24 @@
 import React from "react";
 import styles from "../styles/SearchResults.module.css";
 
-function SearchResults() {
+function SearchResults({ results, addToPlaylist }) {
   return (
     <div className={styles.Container}>
       <h2>Search Results</h2>
-      <div className={styles.Entry}>
-        <p className={styles.Title}>Song Title 1</p>
-        <p className={styles.Artist}>Song Artist 1</p>
-        <p className={styles.Albumn}>Song Albumn 1</p>
-        <button className={styles.AddButton}>+</button>
-      </div>
-      <div className={styles.Entry}>
-        <p className={styles.Title}>Song Title 2</p>
-        <p className={styles.Artist}>Song Artist 2</p>
-        <p className={styles.Albumn}>Song Albumn 2</p>
-        <button className={styles.AddButton}>+</button>
-      </div>
-      <div className={styles.Entry}>
-        <p className={styles.Title}>Song Title 3</p>
-        <p className={styles.Artist}>Song Artist 3</p>
-        <p className={styles.Albumn}>Song Albumn 3</p>
-        <button className={styles.AddButton}>+</button>
-      </div>
+      {results.length > 0 ? (
+        results.map((song, index) => (
+          <div key={index} className={styles.Entry}>
+            <p className={styles.Title}>{song.title}</p>
+            <p className={styles.Artist}>{song.artist}</p>
+            <p className={styles.Album}>{song.album}</p>
+            <button className={styles.AddButton} 
+            onClick={() => addToPlaylist(song)} // Add song to playlist on button click
+          >+</button>
+          </div>
+        ))
+      ) : (
+        <p>No results found.</p>
+      )}
     </div>
   );
 }

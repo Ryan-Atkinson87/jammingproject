@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/Playlist.module.css";
+import getAccessToken from "../api/access";
+import credentials from "../api/spotify.js";
+
+const playlistEndpoint = credentials.playlistEndpoint
+const userID = credentials.userID
 
 function PlayList({ playlist = [], clearPlaylist }) { 
   const [playlistName, setPlaylistName] = useState(""); // State for playlist name
@@ -26,12 +31,47 @@ function PlayList({ playlist = [], clearPlaylist }) {
   };
 
   // Function to handle saving the playlist
-  const handleSavePlaylist = () => {
-    alertPlaylistDetails(); // Show alert with playlist details
-    clearPlaylist(); // Clear the playlist
-    setPlaylistName(""); // Clear the playlist name
-    setCurrentPlaylist([]); // Clear the local playlist
-  };
+  const handleSavePlaylist = async () => {
+    const token = getAccessToken();
+    if (!playlistName || currentPlaylist.length === 0 || !token) return;
+  
+    // Step 1: Create a playlist
+    const createPlaylistEndpoint = `https://api.spotify.com/v1/users/${userID}/playlists`;
+    const createPlaylistResponse = await fetch(createPlaylistEndpoint, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: playlistName,
+        description: 'Created via Spotify API',
+        public: false // Set to true if you want it to be public
+      })
+    });
+  
+    const playlistData = await createPlaylistResponse.json();
+  
+    // Step 2: Add tracks to the playlist
+    const addTracksEndpoint = `${playlistEndpoint}/${playlistData.id}/tracks`;
+    const trackURIs = currentPlaylist.map(song => song.uri);
+  
+    await fetch(addTracksEndpoint, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        uris: trackURIs
+      })
+    });
+  
+    // Clear the playlist and reset the name
+    clearPlaylist();
+    setPlaylistName('');
+    setCurrentPlaylist([]);
+  };  
 
   // Function to remove a song from the playlist
   const removeSong = (index) => {

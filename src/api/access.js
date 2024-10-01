@@ -1,44 +1,57 @@
 import credentials from "./spotify.js";
 import axios from "axios";
 
-const client_id = credentials.clientID; // Replace with your client ID
+const clientID = credentials.clientID; // Replace with your client ID
 const client_secret = credentials.clientSecret; // Replace with your client secret
+const redirectURI = credentials.redirectURI; // Replace with your redirect URI
+const userID = credentials.userID; // Replace with your user ID
+const scope = credentials.scope; // Replace with your scope
 
-const getToken = async () => {
-  const authOptions = {
-    method: 'post',
-    url: 'https://accounts.spotify.com/api/token',
-    headers: {
-      'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64'),
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    data: new URLSearchParams({
-      grant_type: 'client_credentials'
-    })
-  };
+const authorizeSpotify = () => {
+  const authEndpoint = "https://accounts.spotify.com/authorize";
+  const responseType = "token";
 
-  try {
-    const response = await axios(authOptions);  // Await the API call
-    return response.data.access_token;  // Return the access token
-  } catch (error) {
-    console.error('Failed to get token:', error.response ? error.response.data : error.message);
-    return null; // Handle errors and return null in case of failure
+  const authUrl = `${authEndpoint}?client_id=${clientID}&redirect_uri=${encodeURIComponent(
+    redirectURI
+  )}&scope=${encodeURIComponent(scope)}&response_type=${responseType}`;
+
+  // Redirect user to Spotify authorization page
+  window.location = authUrl;
+};
+
+export const getAccessToken = () => {
+  // Check if token is already available in local storage
+  let token = localStorage.getItem("spotify_access_token");
+  const expiresAt = localStorage.getItem("spotify_token_expiration");
+
+  if (token && new Date().getTime() < expiresAt) {
+    return token;
+  }
+
+  // If not, check if URL has the token (after redirect)
+  const hash = window.location.hash;
+  if (!token && hash) {
+    const params = new URLSearchParams(hash.substring(1));
+    token = params.get("access_token");
+    const expiresIn = parseInt(params.get("expires_in"));
+
+    // Save token and expiration time
+    localStorage.setItem("spotify_access_token", token);
+    localStorage.setItem(
+      "spotify_token_expiration",
+      new Date().getTime() + expiresIn * 1000
+    );
+
+    // Clear URL hash
+    window.location.hash = "";
+
+    return token;
+  }
+
+  // If token not available, redirect for authorization
+  if (!token) {
+    authorizeSpotify();
   }
 };
 
-// Testing token can be accessed outside of the function
-/*
-const main = async () => {
-  const token = await getToken();  // Await the token to be fetched
-  if (token) {
-    console.log('Access Token:', token);  // Use the token
-  } else {
-    console.log('Failed to retrieve access token');
-  }
-};
-
-main(); // returns the access token
-*/
-
-export default getToken;
-
+export default getAccessToken ;

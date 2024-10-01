@@ -1,27 +1,41 @@
 import React from "react";
 import styles from "../styles/SearchBar.module.css";
-import sampleSongs from "./Tracklist";
+//import sampleSongs from "./Tracklist";
+import getAccessToken from "../api/access";
 
 function SearchBar({ updateResults }) {
   // Function to handle searching songs
-  const searchSongs = () => {
+  const searchSongs = async () => {
     const query = document.getElementById("searchBar").value.toLowerCase();
-    
-    // Filter songs based on the query matching title, artist, or album
-    const filteredSongs = sampleSongs.filter(
-      (song) =>
-        song.title.toLowerCase().includes(query) ||
-        song.artist.toLowerCase().includes(query) ||
-        song.album.toLowerCase().includes(query)
-    );
+    const token = getAccessToken();
 
-    // Update the results using the updateResults function passed from App
+    if (!query || !token) return;
+
+    const searchEndpoint = `https://api.spotify.com/v1/search?q=${encodeURIComponent(
+      query
+    )}&type=track&limit=10`;
+
+    const response = await fetch(searchEndpoint, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    const filteredSongs = data.tracks.items.map((track) => ({
+      title: track.name,
+      artist: track.artists[0].name,
+      album: track.album.name,
+      uri: track.uri, // Store the track URI for later use
+    }));
+
     updateResults(filteredSongs);
   };
 
   // Function to handle key press
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       searchSongs(); // Call the search function if Enter is pressed
     }
   };

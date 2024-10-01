@@ -48,7 +48,6 @@
 
 .AddButton {
   grid-area: 1 / 3 / span 2 / span 1;
-  background-color: transparent;
   border: none;
   font-size: 1.5rem;
   background-color: #87A330;
@@ -58,4 +57,7 @@
   text-align: center;
   margin-right: 1rem;
   padding: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
 }

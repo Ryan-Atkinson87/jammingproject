@@ -93,7 +93,7 @@ function PlayList({ playlist = [], clearPlaylist }) {
           <p className={styles.Title}>{song.title}</p>
           <p className={styles.Artist}>{song.artist}</p>
           <p className={styles.Albumn}>{song.album}</p>
-          <button className={styles.Button} onClick={() => removeSong(index)}>x</button>
+          <button className={`${styles.Button} ${styles.removeButton}`} onClick={() => removeSong(index)}>-</button>
         </div>
       ))}
       <button onClick={handleSavePlaylist} className={styles.Button}>Save to Spotify</button>

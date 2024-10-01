@@ -1,5 +1,4 @@
 import credentials from "./spotify.js";
-import axios from "axios";
 
 const clientID = credentials.clientID; // Replace with your client ID
 const client_secret = credentials.clientSecret; // Replace with your client secret

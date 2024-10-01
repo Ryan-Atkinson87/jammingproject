@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "../styles/SearchBar.module.css";
-//import sampleSongs from "./Tracklist";
 import getAccessToken from "../api/access";
 
 function SearchBar({ updateResults }) {

@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/Playlist.module.css";
 
-function PlayList({ playlist, clearPlaylist }) { // Accept playlist as a prop
+function PlayList({ playlist = [], clearPlaylist }) { 
   const [playlistName, setPlaylistName] = useState(""); // State for playlist name
+  const [currentPlaylist, setCurrentPlaylist] = useState(playlist); // State for the playlist
+
+  // Keep currentPlaylist in sync with the prop `playlist`
+  useEffect(() => {
+    setCurrentPlaylist(playlist);
+  }, [playlist]);
 
   // Handle input change for playlist name
   const handleInputChange = (event) => {
@@ -12,7 +18,7 @@ function PlayList({ playlist, clearPlaylist }) { // Accept playlist as a prop
   // Function to alert playlist details
   const alertPlaylistDetails = () => {
     // Constructing the alert message
-    const songList = playlist.map((song) => `${song.title} by ${song.artist} (Album: ${song.album})`).join("\n");
+    const songList = currentPlaylist.map((song) => `${song.title} by ${song.artist} (Album: ${song.album})`).join("\n");
     const message = `Playlist Name: ${playlistName}\n\nSongs:\n${songList}`;
 
     // Displaying the alert
@@ -24,6 +30,13 @@ function PlayList({ playlist, clearPlaylist }) { // Accept playlist as a prop
     alertPlaylistDetails(); // Show alert with playlist details
     clearPlaylist(); // Clear the playlist
     setPlaylistName(""); // Clear the playlist name
+    setCurrentPlaylist([]); // Clear the local playlist
+  };
+
+  // Function to remove a song from the playlist
+  const removeSong = (index) => {
+    const updatedPlaylist = currentPlaylist.filter((_, songIndex) => songIndex !== index);
+    setCurrentPlaylist(updatedPlaylist); // Update the playlist state
   };
 
   return (
@@ -35,11 +48,12 @@ function PlayList({ playlist, clearPlaylist }) { // Accept playlist as a prop
         value={playlistName} // Bind the input value to the state
         onChange={handleInputChange} // Call the handler on input change
       />
-      {playlist.map((song, index) => ( // Map through the playlist
+      {currentPlaylist.map((song, index) => ( // Map through the currentPlaylist
         <div key={index} className={styles.Entry}>
           <p className={styles.Title}>{song.title}</p>
           <p className={styles.Artist}>{song.artist}</p>
           <p className={styles.Albumn}>{song.album}</p>
+          <button className={styles.Button} onClick={() => removeSong(index)}>x</button>
         </div>
       ))}
       <button onClick={handleSavePlaylist} className={styles.Button}>Save to Spotify</button>
